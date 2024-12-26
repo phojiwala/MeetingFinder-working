@@ -1,0 +1,19 @@
+html,
+body,
+#root {
+  /* gray.50 */
+  background-color: #F7FAFC !important;
+  height: 100%;
+}
+
+#root a {
+  /* blue.500 */
+  border-bottom: 1px solid #3182CE;
+  color: #3182CE;
+}
+
+#root a:hover {
+  /* blue.600 */
+  border-bottom: 1px solid #1E4E8C;
+  color: #1E4E8C;
+}
