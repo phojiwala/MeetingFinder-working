@@ -26,6 +26,8 @@ export function Meeting({
   translationData,
   loading
 }: MeetingProps) {
+  // console.log(translationData);
+
   const { rtl, strings } = useContext(i18n);
   let days = [];
   if (translationData.length > 0) {
@@ -128,20 +130,20 @@ export function Meeting({
           ? 'Loading...'
           : Array.isArray(translationData) &&
             translationData[0] &&
-            Object.entries(translationData[0]).map(
-              ([key, value]) =>
+            Object.entries(translationData[0]).map(([key, value]) => {
+              return (
                 meeting[key] && (
                   <Text key={key} wordBreak="break-word">
                     <Linkify>
                       <span className={value === 'WSO ID' ? 'notranslate' : ''}>
                         {value}:{' '}
                       </span>
-
                       <span className="notranslate">{meeting[key]}</span>
                     </Linkify>
                   </Text>
                 )
-            )}
+              );
+            })}
 
         {!!meeting.tags?.length && (
           <Box>

@@ -1047,3 +1047,14 @@ export function isLanguage(string: string): boolean {
 export function isLanguageCode(string: string | null): string is Language {
   return !!string && languageKeys.includes(string);
 }
+
+export function getI18nContext(selectedLanguage: Language = 'en') {
+  const selectedLanguageData = languages[selectedLanguage];
+  const { rtl, strings } = selectedLanguageData;
+  const enStrings = { ...languages.en.strings, ...strings };
+  return {
+    language: selectedLanguage,
+    rtl,
+    strings: enStrings
+  };
+}

@@ -20,8 +20,6 @@ import {
 } from './helpers';
 import { ButtonPrimary } from './components/ButtonPrimary';
 
-console.log('5.27pm 26/12/24');
-
 export const App = () => {
   //check out query string
   const query = new URLSearchParams(window.location.search);
@@ -29,11 +27,9 @@ export const App = () => {
   const language = isLanguageCode(queryLang) ? queryLang : getLanguage();
   const direction = languages[language].rtl ? 'rtl' : 'ltr';
 
-  const [loading, setLoading] = useState(true);
-
   let current_lang = getLangCodeFromCurrentURL() || 'en';
-  console.log(current_lang);
 
+  const [loading, setLoading] = useState(true);
   const [state, setState] = useState<State>({
     filters: {
       days: [],

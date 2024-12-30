@@ -1,4 +1,4 @@
-import { useRef, useContext } from 'react';
+import { useRef, useContext, createContext } from 'react';
 import {
   IconButton,
   Input,
@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Icon } from './Icon';
-import { i18n, State } from '../helpers';
+import { getI18nContext, State } from '../helpers';
 
 export type SearchProps = {
   setSearch: (search: string) => void;
@@ -16,9 +16,11 @@ export type SearchProps = {
   state: State;
 };
 
+export const I18nContext = createContext(getI18nContext());
+
 export function Search({ search, setSearch }: SearchProps) {
   const searchField = useRef<HTMLInputElement>(null);
-  const { rtl, strings } = useContext(i18n);
+  const { rtl, strings } = useContext(I18nContext);
   const clearButton = (
     <IconButton
       aria-label={strings.clear_search}

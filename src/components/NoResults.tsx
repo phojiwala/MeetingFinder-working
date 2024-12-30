@@ -10,21 +10,29 @@ export type NoResultsProps = {
   clearSearch: () => void;
 };
 
-export function NoResults({ state, toggleTag, clearSearch }: NoResultsProps) {
+export function NoResults({
+  state,
+  toggleTag,
+  clearSearch,
+  translationData
+}: NoResultsProps) {
   const { strings } = useContext(i18n);
 
   //get currrently active filters
   const filters = Object.keys(state.filters)
     .map(filter =>
       state.filters[filter]
-        .filter(({ checked }) => checked)
-        .map(tag => [filter, tag.tag])
+        ?.filter(({ checked }) => checked)
+        ?.map(tag => [filter, tag.tag])
     )
     .flat();
+
   return (
     <Alert flexDirection="column" py={60} rounded="md" w="full">
       <Stack spacing={5} align="center">
-        <Box>{strings.no_results}</Box>
+        {translationData.length && (
+          <Box>{translationData?.[0]?.no_results}</Box>
+        )}
         {state.search && (
           <ButtonPrimary
             icon="small-close"

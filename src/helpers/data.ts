@@ -67,10 +67,21 @@ export function load(
       id: row.meeting_id,
       email: row.email,
       report_problem: [],
-	  is_24_7: false
+      is_24_7: false,
+      access_code: row.access_code,
+      meeting_id: row.meeting_id,
+      meeting_password: row.meeting_password,
+      dial_in_number: row.dial_in_number,
+      wso_id: row.wso_id,
+      times: row.times,
+      meeting_day: row.meeting_day,
+      meeting_hour: row.meeting_hour,
+      meeting_minutes: row.meeting_minutes,
+      meeting_ampm: row.meeting_ampm,
+      timezone: row.timezone
     };
 
-    if(row.report_problem) {
+    if (row.report_problem) {
       const originalUrl = row.report_problem.trim();
 
       if (originalUrl) {
@@ -193,14 +204,17 @@ export function load(
         });
     }
 
-	if(row.is_24_7) {
-		meeting.is_24_7 = true;
-		meeting.tags = meeting.tags.concat(meeting_formats, meeting_types, "24/7");
-	}
-	else {
-	    //append to meeting tags
-		meeting.tags = meeting.tags.concat(meeting_formats, meeting_types);
-	}
+    if (row.is_24_7) {
+      meeting.is_24_7 = true;
+      meeting.tags = meeting.tags.concat(
+        meeting_formats,
+        meeting_types,
+        '24/7'
+      );
+    } else {
+      //append to meeting tags
+      meeting.tags = meeting.tags.concat(meeting_formats, meeting_types);
+    }
 
     //add words to search index
     meeting.search = meeting.name
@@ -219,13 +233,13 @@ export function load(
       //loop through create an entry for each time
       times.forEach(timestring => {
         let time = moment
-            .tz(timestring, ['dddd HH:mm', 'dddd H:mm', 'dddd h:mm a'], timezone)
-            .locale(language);
+          .tz(timestring, ['dddd HH:mm', 'dddd H:mm', 'dddd h:mm a'], timezone)
+          .locale(language);
 
         if (!time.isValid()) {
           time = moment
-              .tz(timestring, ['HH:mm', 'H:mm', 'h:mm a'], timezone)
-              .locale(language);
+            .tz(timestring, ['HH:mm', 'H:mm', 'h:mm a'], timezone)
+            .locale(language);
         }
         if (time.isValid() && addMeeting) {
           meetings.push({ ...meeting, time, meeting_day: time.format('dddd') });
@@ -253,7 +267,7 @@ export function load(
           strings.thursday,
           strings.friday,
           strings.saturday,
-		  strings.twenty_four_seven
+          strings.twenty_four_seven
         ],
         query.get('days')?.split(',') || []
       ),
@@ -298,7 +312,6 @@ function stringToTrimmedArray(str?: string, breaksOnly = false): string[] {
     .map(val => val.trim())
     .filter(val => val);
 }
-
 
 //translate response from Google Sheet v4
 function translateGoogleSheet({ values }: GoogleSheetData): DataRow[] {
