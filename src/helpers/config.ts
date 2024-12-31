@@ -18,7 +18,7 @@ export const videoServices: { [key: string]: string[] } = {
   BlueJeans: ['bluejeans.com'],
   Discord: ['discord.gg', 'discord.com'],
   'Free Conference': ['freeconference.com'],
-  FreeConferenceCall: ['freeconferencecall.com'],
+  'Free Conference Call': ['freeconferencecall.com'],
   'Google Meet': ['meet.google.com'],
   GoToMeeting: ['gotomeet.me', 'gotomeeting.com'],
   Jitsi: ['jit.si'],

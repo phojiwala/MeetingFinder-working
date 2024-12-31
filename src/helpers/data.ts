@@ -275,7 +275,7 @@ export function load(
         formats,
         query.get('formats')?.split(',') || []
       ),
-      types: arrayToTagsArray(types, query.get('types')?.split(',') || [])
+      types: arrayToTagsArray2(types, query.get('types')?.split(',') || [])
     },
     limit: meetingsPerPage,
     loaded: true,
@@ -289,6 +289,13 @@ export function load(
 
 function arrayToTagsArray(array: string[], values: string[]): Tag[] {
   return array.map(tag => ({ tag: tag, checked: values.includes(tag) }));
+}
+
+function arrayToTagsArray2(array: string[], values: string[]): Tag[] {
+  return array.map(tag => ({
+    tag: tag,
+    checked: values.map(val => val).includes(tag)
+  }));
 }
 
 function isGoogleSheetData(data: unknown): data is GoogleSheetData {

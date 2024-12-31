@@ -19,6 +19,8 @@ import {
   getLangCodeFromCurrentURL
 } from './helpers';
 import { ButtonPrimary } from './components/ButtonPrimary';
+// import staticData from './meetings-fr.json'
+// console.log(staticData)
 
 export const App = () => {
   //check out query string
@@ -107,24 +109,27 @@ export const App = () => {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  //on first render, get data
-  if (loading) {
-    let pathFetch = '';
-    if (current_lang) {
-      pathFetch = `https://meetings.staging.al-anon.org/${current_lang}/apps/meeting-finder/meetings.json`;
-    } else {
-      pathFetch =
-        'https://meetings.staging.al-anon.org/apps/meeting-finder/meetings.json';
-    }
-    setLoading(false);
-    fetch(pathFetch || dataUrl)
-      .then(result => result.json())
-      .then(result =>
-        setState(
-          load(result, query, state.language, languages[current_lang].strings)
-        )
+  useEffect(() => {
+    if (loading) {
+      let pathFetch = '';
+      if (current_lang) {
+        pathFetch = `https://meetings.staging.al-anon.org/${current_lang}/apps/meeting-finder/meetings.json`;
+      } else {
+        pathFetch =
+          'https://meetings.staging.al-anon.org/apps/meeting-finder/meetings.json';
+      }
+      setLoading(false);
+      fetch(pathFetch || dataUrl)
+        .then(result => result.json())
+        .then(result => {
+          // result = staticData
+          setState(
+            load(result, query, state.language, languages[current_lang].strings)
+          )
+        }
       );
-  }
+    }
+  }, [translationData]);
 
   //get currently-checked tags
   const tags: string[] = Object.keys(state.filters)

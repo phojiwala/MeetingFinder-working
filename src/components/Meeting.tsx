@@ -6,6 +6,7 @@ import Linkify from 'react-linkify';
 import {
   Meeting as MeetingType,
   capitalizeWords,
+  getLangCodeFromCurrentURL,
   i18n,
   wordsToSkip
 } from '../helpers';
@@ -26,19 +27,22 @@ export function Meeting({
   translationData,
   loading
 }: MeetingProps) {
-  // console.log(translationData);
+  const translations = translationData?.[0];
+  const { language, rtl, strings } = useContext(i18n);
+  console.log('i18n language', language)
 
-  const { rtl, strings } = useContext(i18n);
+  let current_lang = getLangCodeFromCurrentURL() || 'en';
+
   let days = [];
   if (translationData.length > 0) {
     days = [
-      translationData?.[0]?.sunday,
-      translationData?.[0]?.monday,
-      translationData?.[0]?.tuesday,
-      translationData?.[0]?.wednesday,
-      translationData?.[0]?.thursday,
-      translationData?.[0]?.friday,
-      translationData?.[0]?.saturday
+      translations?.sunday,
+      translations?.monday,
+      translations?.tuesday,
+      translations?.wednesday,
+      translations?.thursday,
+      translations?.friday,
+      translations?.saturday
     ];
   }
   const formatTime = time => {
@@ -47,6 +51,15 @@ export function Meeting({
     const formattedTime = time.format('LT');
     return `${days[dayIndex]} ${formattedTime}`;
   };
+
+  const displayOrder = [
+    'wso_id',
+    'meeting_id',
+    'meeting_password',
+    'access_code',
+    'dial_in_number'
+  ];
+
   return (
     <Box
       as="article"
@@ -93,7 +106,11 @@ export function Meeting({
             {meeting.buttons.map((button, index) => {
               const text =
                 button.icon === 'email'
-                  ? translationData?.[0]?.e_mail || strings?.email
+                  ? current_lang === 'fr'
+                    ? 'Courriel'
+                    : current_lang === 'es'
+                    ? 'Correo Electronico'
+                    : strings?.email || strings?.courriel
                   : button.icon === 'phone'
                   ? translationData?.[0]?.phone || ''
                   : button.value === 'AFG Mobile App'
@@ -126,7 +143,7 @@ export function Meeting({
             {i}
           </Text>
         ))}
-        {loading
+        {/* {loading
           ? 'Loading...'
           : Array.isArray(translationData) &&
             translationData[0] &&
@@ -143,7 +160,22 @@ export function Meeting({
                   </Text>
                 )
               );
-            })}
+            })} */}
+        {displayOrder.map(key => {
+          const translation = translations?.[key];
+          const value = meeting?.[key];
+          if (!value) return null;
+          return (
+            <Text key={key} wordBreak="break-word">
+              <Linkify>
+                <span className={value === 'WSO ID' ? 'notranslate' : ''}>
+                  {translation}:{' '}
+                </span>
+                <span className="notranslate">{value}</span>
+              </Linkify>
+            </Text>
+          );
+        })}
 
         {!!meeting.tags?.length && (
           <Box>
