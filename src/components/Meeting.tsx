@@ -28,8 +28,7 @@ export function Meeting({
   loading
 }: MeetingProps) {
   const translations = translationData?.[0];
-  const { language, rtl, strings } = useContext(i18n);
-  console.log('i18n language', language)
+  const { rtl, strings } = useContext(i18n);
 
   let current_lang = getLangCodeFromCurrentURL() || 'en';
 
