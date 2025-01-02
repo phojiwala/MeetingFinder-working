@@ -18,9 +18,10 @@ export type SearchProps = {
 
 export const I18nContext = createContext(getI18nContext());
 
-export function Search({ search, setSearch }: SearchProps) {
+export function Search({ search, setSearch, headerData }: SearchProps) {
   const searchField = useRef<HTMLInputElement>(null);
   const { rtl, strings } = useContext(I18nContext);
+
   const clearButton = (
     <IconButton
       aria-label={strings.clear_search}
@@ -45,9 +46,9 @@ export function Search({ search, setSearch }: SearchProps) {
         </InputLeftElement>
       )}
       <Input
-        aria-label={strings.search}
         bgColor="white"
-        placeholder={strings.search}
+        aria-label={headerData?.search}
+        placeholder={headerData?.search}
         onChange={e => setSearch(e.target.value)}
         value={search}
         pl={rtl ? 4 : 10}

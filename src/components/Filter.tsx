@@ -36,7 +36,7 @@ export function Filter({
   return (
     <Stack spacing={{ base: 3, md: 6 }}>
       <FormControl>
-        <Search search={state.search} setSearch={setSearch} state={state} />
+        <Search search={state.search} setSearch={setSearch} state={state} headerData={headerData} />
       </FormControl>
       <Stack
         display={{ base: open ? 'block' : 'none', md: 'block' }}
