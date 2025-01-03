@@ -1,8 +1,6 @@
-import { useContext } from 'react';
 import { Alert, Box, Stack } from '@chakra-ui/react';
-
+import { State } from '../helpers';
 import { ButtonPrimary } from './ButtonPrimary';
-import { i18n, State } from '../helpers';
 
 export type NoResultsProps = {
   state: State;
@@ -16,7 +14,7 @@ export function NoResults({
   clearSearch,
   translationData
 }: NoResultsProps) {
-  const { strings } = useContext(i18n);
+  let headerData = translationData?.[0];
 
   //get currrently active filters
   const filters = Object.keys(state.filters)
@@ -31,14 +29,14 @@ export function NoResults({
     <Alert flexDirection="column" py={60} rounded="md" w="full">
       <Stack spacing={5} align="center">
         {translationData.length && (
-          <Box>{translationData?.[0]?.no_results}</Box>
+          <Box>{headerData?.no_results}</Box>
         )}
         {state.search && (
           <ButtonPrimary
             icon="small-close"
             onClick={() => clearSearch()}
-            text={strings.clear_search}
-            title={strings.clear_search}
+            text={headerData.clear_search}
+            title={headerData.clear_search}
           />
         )}
         {filters.map(([filter, tag], index) => (
@@ -52,7 +50,6 @@ export function NoResults({
             />
           </Box>
         ))}
-        {}
       </Stack>
     </Alert>
   );

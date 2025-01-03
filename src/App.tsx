@@ -183,7 +183,7 @@ export const App = () => {
                   state={state}
                   currentDays={currentDays}
                   toggleTag={toggleTag}
-                  translationData={translationData}
+                  translationData={translationData || []}
                 />
               </Box>
               <Box order={{ base: 2, md: 1 }}>
@@ -192,7 +192,7 @@ export const App = () => {
                     state={state}
                     toggleTag={toggleTag}
                     clearSearch={() => setState({ ...state, search: '' })}
-                    translationData={translationData}
+                    translationData={translationData || []}
                   />
                 ) : (
                   <div>
@@ -213,7 +213,7 @@ export const App = () => {
               </Box>
             </Grid>
             {Array.isArray(translationData) &&
-            translationData[0] &&
+            translationData?.[0] &&
             filteredMeetings.length > 10 &&
             filteredMeetings.length > state.limit ? (
               <Box display="flex" justifyContent="center">

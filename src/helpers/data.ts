@@ -165,8 +165,12 @@ export function load(
     }
 
     //handle email
-    if (row.email) {
-      const email = row.email.trim();
+    if (row.email || row.courriel || row['Correo Electronico']) {
+      const email =
+        row.email?.trim() ||
+        row.courriel?.trim() ||
+        row['Correo Electronico']?.trim();
+
       if (email) {
         if (validateEmail(email)) {
           meeting.buttons.push({
@@ -177,7 +181,7 @@ export function load(
             value: email
           });
         } else {
-          warn(email, 'email address', i);
+          // Do nothing
         }
       }
     }
