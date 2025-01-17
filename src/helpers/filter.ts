@@ -27,56 +27,55 @@ export function filter(
     strings.friday,
     strings.saturday,
     strings.ongoing,
-	strings.twenty_four_seven
+    strings.twenty_four_seven
   ];
 
   //loop through meetings for time operations
   meetings.map(meeting => {
-	  if(meeting.is_24_7 === true){	
-		  //remove all days from meeting
-		  meeting.tags = meeting.tags.filter(tag => !allDays.includes(tag));
+    if (meeting.is_24_7 === true) {
+      //remove all days from meeting
+      meeting.tags = meeting.tags.filter(tag => !allDays.includes(tag));
 
-		  //add meeting day to tags
-		  const meetingDay = allDays[8];
-		  meeting.tags.push("24/7");	
-		  
-		  if (!currentDays.includes(meetingDay)) currentDays.push(meetingDay);
+      //add meeting day to tags
+      const meetingDay = allDays[8];
+      meeting.tags.push('24/7');
 
-		  //sort tags
-		  meeting.tags.sort();
-	  }
+      if (!currentDays.includes(meetingDay)) currentDays.push(meetingDay);
 
-		if (meeting.time) {
+      //sort tags
+      meeting.tags.sort();
+    }
 
-			//convert timezone
-			meeting.time.tz(timezone);
+    if (meeting.time) {
+      //convert timezone
+      meeting.time.tz(timezone);
 
-			//make all meetings upcoming
-			let diff = meeting.time.diff(now, 'minutes');
+      //make all meetings upcoming
+      let diff = meeting.time.diff(now, 'minutes');
 
-			//with timezone weirdness, date could be more than a week ago
-			if (diff < -10080) {
-			meeting.time.add(1, 'week');
-			diff = meeting.time.diff(now, 'minutes');
-			}
+      //with timezone weirdness, date could be more than a week ago
+      if (diff < -10080) {
+        meeting.time.add(1, 'week');
+        diff = meeting.time.diff(now, 'minutes');
+      }
 
-			//show meetings that started up to 10 minutes ago
-			if (diff < -10) {
-			meeting.time.add(1, 'week');
-			}
+      //show meetings that started up to 10 minutes ago
+      if (diff < -10) {
+        meeting.time.add(1, 'week');
+      }
 
-			//remove all days from meeting
-			meeting.tags = meeting.tags.filter(tag => !allDays.includes(tag));
+      //remove all days from meeting
+      meeting.tags = meeting.tags.filter(tag => !allDays.includes(tag));
 
-			//add meeting day to tags
-			const meetingDay = allDays[meeting.time.day()];
-			meeting.tags.push(meetingDay);	
+      //add meeting day to tags
+      const meetingDay = allDays[meeting.time.day()];
+      meeting.tags.push(meetingDay);
 
-			if (!currentDays.includes(meetingDay)) currentDays.push(meetingDay);
+      if (!currentDays.includes(meetingDay)) currentDays.push(meetingDay);
 
-			//sort tags
-			meeting.tags.sort();
-		}	  
+      //sort tags
+      meeting.tags.sort();
+    }
 
     return meeting;
   });

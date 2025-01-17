@@ -52,11 +52,11 @@ export function Meeting({
   };
 
   const displayOrder = [
-    'wso_id',
     'meeting_id',
     'meeting_password',
     'access_code',
-    'dial_in_number'
+    'dial_in_number',
+    'wso_id',
   ];
 
   return (

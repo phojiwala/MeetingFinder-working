@@ -190,7 +190,7 @@ export function load(
     const meeting_formats = stringToTrimmedArray(row['formats']);
 
     //get types
-    const meeting_types = stringToTrimmedArray(row['types']);
+    const meeting_types = row['types'];
 
     //append to formats & types arrays
     if (addMeeting) {
@@ -279,7 +279,7 @@ export function load(
         formats,
         query.get('formats')?.split(',') || []
       ),
-      types: arrayToTagsArray2(types, query.get('types')?.split(',') || [])
+      types: arrayToTagsArray(types, query.get('types')?.split(',') || [])
     },
     limit: meetingsPerPage,
     loaded: true,

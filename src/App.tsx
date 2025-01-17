@@ -20,7 +20,6 @@ import {
 } from './helpers';
 import { ButtonPrimary } from './components/ButtonPrimary';
 // import staticData from './meetings-fr.json'
-// console.log(staticData)
 
 export const App = () => {
   //check out query string

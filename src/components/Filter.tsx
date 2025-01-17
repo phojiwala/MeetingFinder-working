@@ -54,7 +54,7 @@ export function Filter({
                         : filter === 'formats'
                         ? headerData?.platforms
                         : filter === 'types'
-                        ? headerData?.attendees
+                        ? headerData?.participants
                         : ''}
                     </label>
                   </strong>
