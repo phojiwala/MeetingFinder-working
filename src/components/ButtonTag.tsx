@@ -22,6 +22,8 @@ export function ButtonTag({ filter, tag, toggleTag }: ButtonTagProps) {
       onClick={e => {
         toggleTag(filter, tag.tag, !tag.checked);
       }}
+      padding="18px 10px"
+      sx={{ 'text-wrap': 'balance' }}
       size="sm"
       _hover={{
         bg: tag.checked ? 'gray.800' : 'gray.200',
