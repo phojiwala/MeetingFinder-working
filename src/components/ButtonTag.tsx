@@ -1,7 +1,6 @@
 import { Button } from '@chakra-ui/react';
-
+import { capitalizeFirstLetter } from '../helpers';
 import { Tag } from '../helpers/types';
-import { capitalizeWords } from '../helpers';
 
 export type ButtonTagProps = {
   filter: string;
@@ -30,7 +29,7 @@ export function ButtonTag({ filter, tag, toggleTag }: ButtonTagProps) {
         color: tag.checked ? 'gray.100' : 'gray.600'
       }}
     >
-      {capitalizeWords(tag.tag)}
+      {capitalizeFirstLetter(tag.tag)}
     </Button>
   );
 }

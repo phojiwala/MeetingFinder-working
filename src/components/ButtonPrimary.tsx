@@ -1,7 +1,6 @@
 import { Box, Button } from '@chakra-ui/react';
-
-import { Icon } from './Icon';
 import { capitalizeWords, wordsToSkip } from '../helpers';
+import { Icon } from './Icon';
 
 export type ButtonPrimaryProps = {
   disabled?: boolean;
@@ -34,7 +33,7 @@ export function ButtonPrimary({
           <Icon name={icon} />
         </Box>
       )}
-      {capitalizeWords(text)}
+      {text?.includes('.') ? text : capitalizeWords(text)}
     </Button>
   );
 }

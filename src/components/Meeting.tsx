@@ -1,11 +1,11 @@
 import { Box, Heading, Stack, Tag, Text } from '@chakra-ui/react';
 import moment from 'moment-timezone';
-import { createContext, useContext } from 'react';
+import { useContext } from 'react';
 import Highlighter from 'react-highlight-words';
 import Linkify from 'react-linkify';
 import {
   Meeting as MeetingType,
-  capitalizeWords,
+  capitalizeFirstLetter,
   getLangCodeFromCurrentURL,
   i18n,
   wordsToSkip
@@ -54,10 +54,16 @@ export function Meeting({
   const displayOrder = [
     'meeting_id',
     'meeting_password',
-    'access_code',
     'dial_in_number',
+    'access_code',
     'wso_id',
   ];
+
+  const detectEmail = (text: string) => {
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    const match = text.match(emailRegex);
+    return match ? match[0] : null;
+  };
 
   return (
     <Box
@@ -108,21 +114,22 @@ export function Meeting({
                   ? current_lang === 'fr'
                     ? 'Courriel'
                     : current_lang === 'es'
-                    ? 'Correo Electronico'
-                    : strings?.email || strings?.courriel
+                      ? 'Correo Electronico'
+                      : strings?.email || strings?.courriel
                   : button.icon === 'phone'
-                  ? translationData?.[0]?.phone || ''
-                  : button.value === 'AFG Mobile App'
-                  ? translationData?.[0]?.afg
-                  : button.value;
+                    ? translationData?.[0]?.phone || ''
+                    : button.value === 'AFG Mobile App'
+                      ? translationData?.[0]?.afg
+                      : button.value;
+
               const title =
                 button.icon === 'email'
                   ? strings?.email_use.replace('{{value}}', button.value)
                   : button.icon === 'phone'
-                  ? translationData?.[0]?.phone || ''
-                  : button.value == 'AFG Mobile App'
-                  ? translationData?.[0]?.afg
-                  : strings?.video_use.replace('{{value}}', button.value);
+                    ? translationData?.[0]?.phone || ''
+                    : button.value == 'AFG Mobile App'
+                      ? translationData?.[0]?.afg
+                      : strings?.video_use.replace('{{value}}', button.value);
               return (
                 <Box
                   float={rtl ? 'right' : 'left'}
@@ -137,11 +144,25 @@ export function Meeting({
             })}
           </Box>
         )}
-        {(meeting?.notes || [])?.map((i, j) => (
-          <Text key={j} wordBreak="break-word">
-            {i}
-          </Text>
-        ))}
+        {(meeting?.notes || [])?.map((note, j) => {
+          const email = detectEmail(note);
+          return (
+            <Text key={j} wordBreak="break-word">
+              {email ? (
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: note.replace(
+                      email,
+                      `<a style="text-decoration: underline; color: #3182CE;" href="mailto:${email}">${email}</a>`
+                    ),
+                  }}
+                />
+              ) : (
+                note
+              )}
+            </Text>
+          );
+        })}
         {/* {loading
           ? 'Loading...'
           : Array.isArray(translationData) &&
@@ -193,7 +214,7 @@ export function Meeting({
                 size="sm"
                 className={wordsToSkip?.includes(tag) ? 'notranslate' : ''}
               >
-                {capitalizeWords(tag)}
+                {capitalizeFirstLetter(tag)}
               </Tag>
             ))}
           </Box>
@@ -205,15 +226,15 @@ export function Meeting({
                 button.icon === 'email'
                   ? strings?.email
                   : button.icon === 'phone'
-                  ? strings?.telephone
-                  : button.value;
+                    ? strings?.telephone
+                    : button.value;
 
               const title =
                 button.icon === 'email'
                   ? strings?.email_use.replace('{{value}}', button.value)
                   : button.icon === 'phone'
-                  ? strings?.telephone_use.replace('{{value}}', button.value)
-                  : strings?.video_use.replace('{{value}}', button.value);
+                    ? strings?.telephone_use.replace('{{value}}', button.value)
+                    : strings?.video_use.replace('{{value}}', button.value);
 
               return (
                 <Box

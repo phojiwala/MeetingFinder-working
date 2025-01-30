@@ -1,8 +1,7 @@
 import { Button, FormControl, Select, Stack } from '@chakra-ui/react';
 import moment from 'moment-timezone';
 import { FormEvent, useContext, useState } from 'react';
-
-import { Language, State, i18n, languages, wordsToSkip } from '../helpers';
+import { State, i18n, wordsToSkip } from '../helpers';
 import { ButtonTag } from './ButtonTag';
 import { Icon } from './Icon';
 import { Search } from './Search';
@@ -33,6 +32,14 @@ export function Filter({
 
   let headerData = translationData?.[0];
 
+  const langObj = headerData
+    ? Object.fromEntries(
+      Object.entries(headerData)
+        .filter(([key, _]) => key.startsWith('lang_'))
+        .map(([key, value]) => [key.replace('lang_', ''), value])
+    )
+    : {};
+
   return (
     <Stack spacing={{ base: 3, md: 6 }}>
       <FormControl>
@@ -52,10 +59,10 @@ export function Filter({
                       {filter === 'days'
                         ? headerData?.days
                         : filter === 'formats'
-                        ? headerData?.platforms
-                        : filter === 'types'
-                        ? headerData?.participants
-                        : ''}
+                          ? headerData?.platforms
+                          : filter === 'types'
+                            ? headerData?.participants
+                            : ''}
                     </label>
                   </strong>
                 </div>
@@ -76,7 +83,7 @@ export function Filter({
             )
           );
         })}
-        {state.languages.length > 1 && (
+        {state.languages?.length > 1 && (
           <FormControl display="block" as="fieldset">
             <label>
               <strong>{headerData?.meeting_language}</strong>
@@ -94,11 +101,13 @@ export function Filter({
               }}
               value={language}
             >
-              {state.languages.map((language, index) => (
-                <option key={index} value={language}>
-                  {languages[language as Language].name}
-                </option>
-              ))}
+              {state.languages?.map((language, index) => {
+                return (
+                  <option key={index} value={language}>
+                    {langObj[language]}
+                  </option>
+                )
+              })}
             </Select>
           </FormControl>
         )}
