@@ -39,11 +39,11 @@ export function load(
     if (hasLanguages) {
       meeting_languages = stringToTrimmedArray(row.languages);
       const meetingLanguages = meeting_languages
-        .filter(string => {
-          const isLanguageDefined = isLanguage(string);
-          if (!isLanguageDefined) warn(string, 'language', i);
-          return isLanguageDefined;
-        })
+        // .filter(string => {
+        //   const isLanguageDefined = isLanguage(string);
+        //   // if (!isLanguageDefined) warn(string, 'language', i);
+        //   return isLanguageDefined;
+        // })
         .map(string => languageLookup[string]);
 
       //make sure available languages is populated
@@ -97,8 +97,9 @@ export function load(
             },
             value: 'Report Problem'
           });
-        } catch {
-          warn(originalUrl, 'URL', i);
+        }
+        catch {
+          // warn(originalUrl, 'URL', i);
         }
       }
     }
@@ -134,7 +135,7 @@ export function load(
             value: label
           });
         } catch {
-          warn(originalUrl, 'URL', i);
+          // warn(originalUrl, 'URL', i);
         }
       }
     }
@@ -159,7 +160,7 @@ export function load(
             value: phone
           });
         } else {
-          warn(originalPhone, 'phone number', i);
+          // warn(originalPhone, 'phone number', i);
         }
       }
     }

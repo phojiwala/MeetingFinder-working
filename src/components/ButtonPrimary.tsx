@@ -1,5 +1,9 @@
 import { Box, Button } from '@chakra-ui/react';
-import { capitalizeFirstLetter, capitalizeWords, wordsToSkip } from '../helpers';
+import {
+  capitalizeFirstLetter,
+  capitalizeWords,
+  wordsToSkip
+} from '../helpers';
 import { Icon } from './Icon';
 
 export type ButtonPrimaryProps = {
@@ -17,6 +21,7 @@ export function ButtonPrimary({
   text,
   title
 }: ButtonPrimaryProps) {
+
   return (
     <Button
       className="notranslate"
@@ -33,7 +38,12 @@ export function ButtonPrimary({
           <Icon name={icon} />
         </Box>
       )}
-      {text?.includes('.') ? text : text == 'Applicazione mobile afg' ? capitalizeWords(text) : capitalizeFirstLetter(text)}
+      {text?.includes('.')
+        ? text
+        : text?.toLowerCase().includes('afg') ||
+          text?.toLowerCase().includes('mobile')
+        ? capitalizeWords(text)
+        : capitalizeFirstLetter(text)}
     </Button>
   );
 }

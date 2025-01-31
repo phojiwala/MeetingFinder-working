@@ -1036,10 +1036,12 @@ const englishLanguageNames = languageKeys.map(
 );
 
 export const languageLookup: { [id: string]: Language } = {};
+languageLookup['холандски'] = 'nl';
+languageLookup['Anglaise'] = 'en';
+languageLookup['Inglese'] = 'en';
 languageKeys.forEach(key => {
   languageLookup[languages[key as Language].english_name] = key as Language;
 });
-
 export function isLanguage(string: string): boolean {
   return englishLanguageNames.includes(string);
 }

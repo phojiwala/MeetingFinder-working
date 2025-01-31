@@ -34,16 +34,23 @@ export function Filter({
 
   const langObj = headerData
     ? Object.fromEntries(
-      Object.entries(headerData)
-        .filter(([key, _]) => key.startsWith('lang_'))
-        .map(([key, value]) => [key.replace('lang_', ''), value])
-    )
+        Object.entries(headerData)
+          .filter(([key, _]) => key.startsWith('lang_'))
+          .map(([key, value]) => [key.replace('lang_', ''), value])
+      )
     : {};
+
+  console.log(langObj, state.languages, '4.52pm');
 
   return (
     <Stack spacing={{ base: 3, md: 6 }}>
       <FormControl>
-        <Search search={state.search} setSearch={setSearch} state={state} headerData={headerData} />
+        <Search
+          search={state.search}
+          setSearch={setSearch}
+          state={state}
+          headerData={headerData}
+        />
       </FormControl>
       <Stack
         display={{ base: open ? 'block' : 'none', md: 'block' }}
@@ -59,10 +66,10 @@ export function Filter({
                       {filter === 'days'
                         ? headerData?.days
                         : filter === 'formats'
-                          ? headerData?.platforms
-                          : filter === 'types'
-                            ? headerData?.participants
-                            : ''}
+                        ? headerData?.platforms
+                        : filter === 'types'
+                        ? headerData?.participants
+                        : ''}
                     </label>
                   </strong>
                 </div>
@@ -106,7 +113,7 @@ export function Filter({
                   <option key={index} value={language}>
                     {langObj[language]}
                   </option>
-                )
+                );
               })}
             </Select>
           </FormControl>
@@ -124,12 +131,14 @@ export function Filter({
             icon={rtl ? <div /> : <Icon name="time" />}
             onChange={(e: FormEvent<HTMLSelectElement>) => {
               // console.log(e.currentTarget.value)
-              setTimezone(e.currentTarget.value)
+              setTimezone(e.currentTarget.value);
             }}
             value={state.timezone}
           >
             {headerData?.timezones?.map((item, index) => (
-              <option key={index} value={item?.text}>{item?.value}</option>
+              <option key={index} value={item?.text}>
+                {item?.value}
+              </option>
             ))}
           </Select>
         </FormControl>
