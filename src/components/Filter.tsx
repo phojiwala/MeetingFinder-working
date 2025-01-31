@@ -122,13 +122,14 @@ export function Filter({
             borderColor="gray.300"
             color="gray.500"
             icon={rtl ? <div /> : <Icon name="time" />}
-            onChange={(e: FormEvent<HTMLSelectElement>) =>
+            onChange={(e: FormEvent<HTMLSelectElement>) => {
+              // console.log(e.currentTarget.value)
               setTimezone(e.currentTarget.value)
-            }
+            }}
             value={state.timezone}
           >
-            {moment.tz.names().map((name, index) => (
-              <option key={index}>{name}</option>
+            {headerData?.timezones?.map((item, index) => (
+              <option key={index} value={item?.text}>{item?.value}</option>
             ))}
           </Select>
         </FormControl>
