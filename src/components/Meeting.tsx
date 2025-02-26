@@ -121,7 +121,6 @@ export function Meeting({
                     : button.value === 'AFG Mobile App'
                       ? translationData?.[0]?.afg
                       : button.value;
-
               const title =
                 button.icon === 'email'
                   ? strings?.email_use.replace('{{value}}', button.value)
