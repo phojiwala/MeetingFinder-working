@@ -144,7 +144,7 @@ export function load(
     if (row.phone) {
       const originalPhone = row.phone.trim();
       if (originalPhone) {
-        let phone = originalPhone.replace(/\D/g, '');
+        let phone = originalPhone.replace(/[^\d*]/g, '');
         if (phone.length > 8) {
           if (row.access_code) {
             const accessCode = row.access_code.trim();

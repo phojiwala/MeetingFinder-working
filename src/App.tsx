@@ -111,14 +111,6 @@ export const App = () => {
   useEffect(() => {
     if (loading) {
       let pathFetch = '';
-      // console.log(current_lang, current_lang === 'bg');
-      // if (current_lang === 'bg') {
-      //   console.log('if')
-      //   state.languages = [...state.languages, 'nl'];
-      // }
-      // if (current_lang === 'fr') {
-      //   state.languages = [...state.languages, 'en'];
-      // }
       if (current_lang) {
         pathFetch = `https://meetings.staging.al-anon.org/${current_lang}/apps/meeting-finder/meetings.json`;
       } else {
@@ -136,8 +128,6 @@ export const App = () => {
         });
     }
   }, [translationData]);
-
-  console.log(state.languages)
 
   //get currently-checked tags
   const tags: string[] = Object.keys(state.filters)
