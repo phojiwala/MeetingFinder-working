@@ -20,6 +20,24 @@ export type MeetingProps = {
   tags: string[];
 };
 
+const parseContactInfo = (note: string) => {
+  const contactRegex = /Contact (\d+):\s*([^|]*?)\s*\|\s*([^|]*?)\s*\|\s*([^|]*?)(?:\s*$|\s*\r?\n)/;
+  const match = note.match(contactRegex);
+  if (match) {
+    return {
+      number: match[1],
+      name: match[2].trim(),
+      phone: match[3].trim(),
+      email: match[4].trim()
+    };
+  }
+  return null;
+};
+
+const formatPhoneNumber = (phone: string) => {
+  return phone.replace(/[^\d]/g, '');
+};
+
 export function Meeting({
   meeting,
   searchWords,
@@ -56,7 +74,7 @@ export function Meeting({
     'meeting_password',
     'dial_in_number',
     'access_code',
-    'wso_id',
+    'wso_id'
   ];
 
   const detectEmail = (text: string) => {
@@ -114,22 +132,22 @@ export function Meeting({
                   ? current_lang === 'fr'
                     ? 'Courriel'
                     : current_lang === 'es'
-                      ? 'Correo Electronico'
-                      : strings?.email || strings?.courriel
+                    ? 'Correo Electronico'
+                    : strings?.email || strings?.courriel
                   : button.icon === 'phone'
-                    ? translationData?.[0]?.phone || ''
-                    : button.value === 'AFG Mobile App'
-                      ? translationData?.[0]?.afg
-                      : button.value;
+                  ? translationData?.[0]?.phone || ''
+                  : button.value === 'AFG Mobile App'
+                  ? translationData?.[0]?.afg
+                  : button.value;
 
               const title =
                 button.icon === 'email'
                   ? strings?.email_use.replace('{{value}}', button.value)
                   : button.icon === 'phone'
-                    ? translationData?.[0]?.phone || ''
-                    : button.value == 'AFG Mobile App'
-                      ? translationData?.[0]?.afg
-                      : strings?.video_use.replace('{{value}}', button.value);
+                  ? translationData?.[0]?.phone || ''
+                  : button.value == 'AFG Mobile App'
+                  ? translationData?.[0]?.afg
+                  : strings?.video_use.replace('{{value}}', button.value);
               return (
                 <Box
                   float={rtl ? 'right' : 'left'}
@@ -144,43 +162,41 @@ export function Meeting({
             })}
           </Box>
         )}
-        {(meeting?.notes || [])?.map((note, j) => {
-          const email = detectEmail(note);
-          return (
-            <Text key={j} wordBreak="break-word">
-              {email ? (
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: note.replace(
-                      email,
-                      `<a style="text-decoration: underline; color: #3182CE;" href="mailto:${email}">${email}</a>`
-                    ),
-                  }}
-                />
-              ) : (
-                note
-              )}
-            </Text>
-          );
-        })}
-        {/* {loading
-          ? 'Loading...'
-          : Array.isArray(translationData) &&
-            translationData[0] &&
-            Object.entries(translationData[0]).map(([key, value]) => {
-              return (
-                meeting[key] && (
-                  <Text key={key} wordBreak="break-word">
-                    <Linkify>
-                      <span className={value === 'WSO ID' ? 'notranslate' : ''}>
-                        {value}:{' '}
-                      </span>
-                      <span className="notranslate">{meeting[key]}</span>
-                    </Linkify>
+
+        {typeof meeting?.notes === 'string' ? (
+          <div>
+            {meeting.notes.split('\n').map((note, j) => {
+              console.log(meeting.notes.split('\n'))
+              const contactInfo = parseContactInfo(note);
+              if (contactInfo) {
+                return (
+                  <Text key={j} wordBreak="break-word">
+                    Contact {contactInfo.number}: {contactInfo.name} |{' '}
+                    {contactInfo.phone && (
+                      <a
+                        href={`tel:${formatPhoneNumber(contactInfo.phone)}`}
+                        style={{ textDecoration: 'underline', color: '#3182CE' }}
+                      >
+                        {contactInfo.phone}
+                      </a>
+                    )}{' '}
+                    |{' '}
+                    {contactInfo.email && (
+                      <a
+                        href={`mailto:${contactInfo.email}`}
+                        style={{ textDecoration: 'underline', color: '#3182CE' }}
+                      >
+                        {contactInfo.email}
+                      </a>
+                    )}
                   </Text>
-                )
-              );
-            })} */}
+                );
+              }
+              return <Text key={j} wordBreak="break-word">{note}</Text>;
+            })}
+          </div>
+        ) : null}
+
         {displayOrder.map(key => {
           const translation = translations?.[key];
           const value = meeting?.[key];
@@ -226,15 +242,15 @@ export function Meeting({
                 button.icon === 'email'
                   ? strings?.email
                   : button.icon === 'phone'
-                    ? strings?.telephone
-                    : button.value;
+                  ? strings?.telephone
+                  : button.value;
 
               const title =
                 button.icon === 'email'
                   ? strings?.email_use.replace('{{value}}', button.value)
                   : button.icon === 'phone'
-                    ? strings?.telephone_use.replace('{{value}}', button.value)
-                    : strings?.video_use.replace('{{value}}', button.value);
+                  ? strings?.telephone_use.replace('{{value}}', button.value)
+                  : strings?.video_use.replace('{{value}}', button.value);
 
               return (
                 <Box
