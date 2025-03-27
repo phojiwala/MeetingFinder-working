@@ -27,6 +27,8 @@ export function load(
 
   let meeting_languages: string[] = [];
 
+  // console.log(data)
+
   //loop through json entries
   data.forEach((row: DataRow, i: number) => {
     //required fields
@@ -56,6 +58,8 @@ export function load(
       //only want meetings for current language, but need to keep going to see all data issues
       addMeeting = meetingLanguages.includes(language);
     }
+
+    // console.log(row.notes)
 
     //start creating meeting
     const meeting: Meeting = {
@@ -316,13 +320,11 @@ function stringToTrimmedArray(str?: string, breaksOnly = false): string[] {
     return safeStr
       .replace(/,/g, sep)
       .split(sep)
-      .map(val => val.trim())
-      .filter(val => val);
+      .map(val => val.trim());
   }
   return safeStr
     .split(sep)
-    .map(val => val.trim())
-    .filter(val => val);
+    .map(val => val.trim());
 }
 
 //translate response from Google Sheet v4

@@ -21,7 +21,8 @@ export type MeetingProps = {
 };
 
 const parseContactInfo = (note: string) => {
-  const contactRegex = /Contact (\d+):\s*([^|]*?)\s*\|\s*([^|]*?)\s*\|\s*([^|]*?)(?:\s*$|\s*\r?\n)/;
+  const contactRegex =
+    /Contact (\d+):\s*([^|]*?)\s*\|\s*([^|]*?)\s*\|\s*([^|]*?)(?:\s*$|\s*\r?\n)/;
   const match = note.match(contactRegex);
   if (match) {
     return {
@@ -82,6 +83,8 @@ export function Meeting({
     const match = text.match(emailRegex);
     return match ? match[0] : null;
   };
+
+  console.log(meeting?.notes);
 
   return (
     <Box
@@ -163,39 +166,13 @@ export function Meeting({
           </Box>
         )}
 
-        {typeof meeting?.notes === 'string' ? (
-          <div>
-            {meeting.notes.split('\n').map((note, j) => {
-              console.log(meeting.notes.split('\n'))
-              const contactInfo = parseContactInfo(note);
-              if (contactInfo) {
-                return (
-                  <Text key={j} wordBreak="break-word">
-                    Contact {contactInfo.number}: {contactInfo.name} |{' '}
-                    {contactInfo.phone && (
-                      <a
-                        href={`tel:${formatPhoneNumber(contactInfo.phone)}`}
-                        style={{ textDecoration: 'underline', color: '#3182CE' }}
-                      >
-                        {contactInfo.phone}
-                      </a>
-                    )}{' '}
-                    |{' '}
-                    {contactInfo.email && (
-                      <a
-                        href={`mailto:${contactInfo.email}`}
-                        style={{ textDecoration: 'underline', color: '#3182CE' }}
-                      >
-                        {contactInfo.email}
-                      </a>
-                    )}
-                  </Text>
-                );
-              }
-              return <Text key={j} wordBreak="break-word">{note}</Text>;
-            })}
-          </div>
-        ) : null}
+        {/* {typeof meeting?.notes === 'object' && Array.isArray(meeting?.notes) ? (
+          <Stack spacing={3} direction="column">
+            <Text wordBreak="break-word">
+              {meeting?.notes[0]}
+            </Text>
+          </Stack>
+        ) : null} */}
 
         {displayOrder.map(key => {
           const translation = translations?.[key];
@@ -212,6 +189,51 @@ export function Meeting({
             </Text>
           );
         })}
+
+        {typeof meeting?.notes === 'object' && Array.isArray(meeting?.notes) ? (
+          <Stack spacing={3} direction="column">
+            {meeting?.notes
+              ?.filter(note => note.trim() !== '')
+              ?.map((note, j) => {
+                const contactInfo = parseContactInfo(note);
+                if (contactInfo) {
+                  return (
+                    <Text key={j} wordBreak="break-word">
+                      Contact {contactInfo.number}: {contactInfo.name} |{' '}
+                      {contactInfo.phone && (
+                        <a
+                          href={`tel:${formatPhoneNumber(contactInfo.phone)}`}
+                          style={{
+                            textDecoration: 'underline',
+                            color: '#3182CE'
+                          }}
+                        >
+                          {contactInfo.phone}
+                        </a>
+                      )}{' '}
+                      |{' '}
+                      {contactInfo.email && (
+                        <a
+                          href={`mailto:${contactInfo.email}`}
+                          style={{
+                            textDecoration: 'underline',
+                            color: '#3182CE'
+                          }}
+                        >
+                          {contactInfo.email}
+                        </a>
+                      )}
+                    </Text>
+                  );
+                }
+                return (
+                  <Text key={j} wordBreak="break-word">
+                    {note}
+                  </Text>
+                );
+              })}
+          </Stack>
+        ) : null}
 
         {!!meeting.tags?.length && (
           <Box>

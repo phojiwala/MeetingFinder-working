@@ -122,12 +122,15 @@ export const App = () => {
         .then(result => result.json())
         .then(result => {
           // result = staticData
+          // console.log(result)
           setState(
             load(result, query, state.language, languages[current_lang].strings)
           );
         });
     }
   }, [translationData]);
+
+  // console.log('27/3/25 3.22pm')
 
   //get currently-checked tags
   const tags: string[] = Object.keys(state.filters)
@@ -143,6 +146,8 @@ export const App = () => {
     tags,
     languages[current_lang].strings
   );
+
+  // console.log(filteredMeetings)
 
   return (
     <i18n.Provider

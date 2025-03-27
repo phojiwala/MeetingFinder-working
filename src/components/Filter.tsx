@@ -128,7 +128,6 @@ export function Filter({
             color="gray.500"
             icon={rtl ? <div /> : <Icon name="time" />}
             onChange={(e: FormEvent<HTMLSelectElement>) => {
-              // console.log(e.currentTarget.value)
               setTimezone(e.currentTarget.value);
             }}
             value={state.timezone}
