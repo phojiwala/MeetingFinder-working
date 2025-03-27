@@ -40,8 +40,6 @@ export function Filter({
       )
     : {};
 
-  console.log(langObj, state.languages, '4.52pm');
-
   return (
     <Stack spacing={{ base: 3, md: 6 }}>
       <FormControl>
