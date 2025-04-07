@@ -25,7 +25,6 @@ export function Filter({
   const [open, setOpen] = useState(false);
   const { language, rtl, strings } = useContext(i18n);
 
-  //filter out unused days
   state.filters.days = state.filters?.days?.filter(day => {
     return currentDays.includes(day.tag);
   });
@@ -88,6 +87,13 @@ export function Filter({
             )
           );
         })}
+
+        {/* {console.log(
+          langObj,
+          state.languages,
+          state.languages?.sort((a, b) => a.localeCompare(b, language))
+        )} */}
+
         {state.languages?.length > 1 && (
           <FormControl display="block" as="fieldset">
             <label>
@@ -106,13 +112,19 @@ export function Filter({
               }}
               value={language}
             >
-              {state.languages?.map((language, index) => {
-                return (
-                  <option key={index} value={language}>
-                    {langObj[language]}
-                  </option>
-                );
-              })}
+              {state.languages
+                ?.sort((a, b) => {
+                  const langA = langObj[a] || a;
+                  const langB = langObj[b] || b;
+                  return langA.localeCompare(langB, language);
+                })
+                ?.map((language, index) => {
+                  return (
+                    <option key={index} value={language}>
+                      {langObj[language]}
+                    </option>
+                  );
+                })}
             </Select>
           </FormControl>
         )}

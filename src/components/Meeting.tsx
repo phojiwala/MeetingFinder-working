@@ -84,7 +84,7 @@ export function Meeting({
     return match ? match[0] : null;
   };
 
-  console.log(meeting?.notes);
+  const isWsoDomain = window.location.href.includes('wso');
 
   return (
     <Box
@@ -166,14 +166,13 @@ export function Meeting({
           </Box>
         )}
 
-        {/* {typeof meeting?.notes === 'object' && Array.isArray(meeting?.notes) ? (
+        {typeof meeting?.notes === 'object' &&
+        Array.isArray(meeting?.notes) &&
+        !isWsoDomain ? (
           <Stack spacing={3} direction="column">
-            <Text wordBreak="break-word">
-              {meeting?.notes[0]}
-            </Text>
+            <Text wordBreak="break-word">{meeting?.notes[0]}</Text>
           </Stack>
-        ) : null} */}
-
+        ) : null}
         {displayOrder.map(key => {
           const translation = translations?.[key];
           const value = meeting?.[key];
@@ -190,9 +189,12 @@ export function Meeting({
           );
         })}
 
-        {typeof meeting?.notes === 'object' && Array.isArray(meeting?.notes) ? (
+        {isWsoDomain &&
+        typeof meeting?.notes === 'object' &&
+        Array.isArray(meeting?.notes) ? (
           <Stack spacing={3} direction="column">
             {meeting?.notes
+              ?.slice(1)
               ?.filter(note => note.trim() !== '')
               ?.map((note, j) => {
                 const contactInfo = parseContactInfo(note);

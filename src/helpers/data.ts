@@ -27,7 +27,6 @@ export function load(
 
   let meeting_languages: string[] = [];
 
-  // console.log(data)
 
   //loop through json entries
   data.forEach((row: DataRow, i: number) => {
@@ -58,8 +57,6 @@ export function load(
       //only want meetings for current language, but need to keep going to see all data issues
       addMeeting = meetingLanguages.includes(language);
     }
-
-    // console.log(row.notes)
 
     //start creating meeting
     const meeting: Meeting = {

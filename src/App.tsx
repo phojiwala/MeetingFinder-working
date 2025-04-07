@@ -19,7 +19,7 @@ import {
   getLangCodeFromCurrentURL
 } from './helpers';
 import { ButtonPrimary } from './components/ButtonPrimary';
-// import staticData from './meetings-fr.json'
+// import staticData from './meetings-hi.json'
 
 export const App = () => {
   //check out query string
@@ -110,13 +110,17 @@ export const App = () => {
 
   useEffect(() => {
     if (loading) {
+      const isWsoDomain = window.location.href.includes('wso');
+      const jsonFile = isWsoDomain ? 'wso.json' : 'meetings.json';
       let pathFetch = '';
       if (current_lang) {
-        pathFetch = `https://meetings.staging.al-anon.org/${current_lang}/apps/meeting-finder/meetings.json`;
+        pathFetch = `https://meetings.staging.al-anon.org/${current_lang}/apps/meeting-finder/${jsonFile}`;
       } else {
-        pathFetch =
-          'https://meetings.staging.al-anon.org/apps/meeting-finder/meetings.json';
+        pathFetch = `https://meetings.staging.al-anon.org/apps/meeting-finder/${jsonFile}`;
       }
+
+      console.log('7 april, 2.26 pm')
+
       setLoading(false);
       fetch(pathFetch || dataUrl)
         .then(result => result.json())
@@ -129,8 +133,6 @@ export const App = () => {
         });
     }
   }, [translationData]);
-
-  // console.log('27/3/25 3.22pm')
 
   //get currently-checked tags
   const tags: string[] = Object.keys(state.filters)
@@ -146,8 +148,6 @@ export const App = () => {
     tags,
     languages[current_lang].strings
   );
-
-  // console.log(filteredMeetings)
 
   return (
     <i18n.Provider
