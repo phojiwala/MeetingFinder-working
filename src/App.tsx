@@ -119,7 +119,7 @@ export const App = () => {
         pathFetch = `https://meetings.al-anon.org/apps/meeting-finder-test/${jsonFile}`;
       }
 
-      console.log('9 april, 3.30 pm')
+      console.log('10 april, 2.45 pm')
 
       setLoading(false);
       fetch(pathFetch || dataUrl)
