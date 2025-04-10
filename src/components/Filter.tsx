@@ -87,13 +87,6 @@ export function Filter({
             )
           );
         })}
-
-        {/* {console.log(
-          langObj,
-          state.languages,
-          state.languages?.sort((a, b) => a.localeCompare(b, language))
-        )} */}
-
         {state.languages?.length > 1 && (
           <FormControl display="block" as="fieldset">
             <label>

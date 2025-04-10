@@ -82,13 +82,16 @@ export const App = () => {
     setState({ ...state });
   };
 
+  const isStaging = true;
+  const domain = isStaging ? 'meetings.staging' : 'meetings';
+  const appPath = isStaging ? 'meeting-finder' : 'meeting-finder-test';
+
   useEffect(() => {
     let pathFetch = '';
     if (current_lang) {
-      pathFetch = `https://meetings.al-anon.org/${current_lang}/apps/meeting-finder-test/static-translation-words.json?v1=v2`;
+      pathFetch = `https://${domain}.al-anon.org/${current_lang}/apps/${appPath}/static-translation-words.json?v1=v2`;
     } else {
-      pathFetch =
-        'https://meetings.al-anon.org/apps/meeting-finder-test/static-translation-words.json?v1=v2';
+      pathFetch = `https://${domain}.al-anon.org/apps/${appPath}/static-translation-words.json?v1=v2`;
     }
     fetch(pathFetch)
       .then(result => result.json())
@@ -114,12 +117,12 @@ export const App = () => {
       const jsonFile = isWsoDomain ? 'wso.json' : 'meetings.json';
       let pathFetch = '';
       if (current_lang) {
-        pathFetch = `https://meetings.al-anon.org/${current_lang}/apps/meeting-finder-test/${jsonFile}?v1=v2`;
+        pathFetch = `https://${domain}.al-anon.org/${current_lang}/apps/${appPath}/${jsonFile}?v1=v2`;
       } else {
-        pathFetch = `https://meetings.al-anon.org/apps/meeting-finder-test/${jsonFile}?v1=v2`;
+        pathFetch = `https://${domain}.al-anon.org/apps/${appPath}/${jsonFile}?v1=v2`;
       }
 
-      console.log('10 april, 4.32 pm')
+      console.log('10 april, 6.11 pm');
 
       setLoading(false);
       fetch(pathFetch || dataUrl)
