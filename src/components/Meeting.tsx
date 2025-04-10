@@ -170,9 +170,29 @@ export function Meeting({
         Array.isArray(meeting?.notes) &&
         !isWsoDomain ? (
           <Stack spacing={3} direction="column">
-            <Text wordBreak="break-word">{meeting?.notes[0]}</Text>
+            <Text wordBreak="break-word">
+              {meeting?.notes[0]?.split(/(\S+@\S+\.\S+)/).map((part, index) => {
+                const isEmail = /\S+@\S+\.\S+/.test(part);
+                return isEmail ? (
+                  <a
+                    key={index}
+                    href={`mailto:${part}`}
+                    style={{
+                      textDecoration: 'underline',
+                      color: '#3182CE'
+                    }}
+                  >
+                    {part}
+                  </a>
+                ) : (
+                  part
+                );
+              })}
+            </Text>
           </Stack>
         ) : null}
+
+
         {displayOrder.map(key => {
           const translation = translations?.[key];
           const value = meeting?.[key];

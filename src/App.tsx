@@ -85,10 +85,10 @@ export const App = () => {
   useEffect(() => {
     let pathFetch = '';
     if (current_lang) {
-      pathFetch = `https://meetings.al-anon.org/${current_lang}/apps/meeting-finder-test/static-translation-words.json`;
+      pathFetch = `https://meetings.al-anon.org/${current_lang}/apps/meeting-finder-test/static-translation-words.json?v1=v2`;
     } else {
       pathFetch =
-        'https://meetings.al-anon.org/apps/meeting-finder-test/static-translation-words.json';
+        'https://meetings.al-anon.org/apps/meeting-finder-test/static-translation-words.json?v1=v2';
     }
     fetch(pathFetch)
       .then(result => result.json())
@@ -114,12 +114,12 @@ export const App = () => {
       const jsonFile = isWsoDomain ? 'wso.json' : 'meetings.json';
       let pathFetch = '';
       if (current_lang) {
-        pathFetch = `https://meetings.al-anon.org/${current_lang}/apps/meeting-finder-test/${jsonFile}`;
+        pathFetch = `https://meetings.al-anon.org/${current_lang}/apps/meeting-finder-test/${jsonFile}?v1=v2`;
       } else {
-        pathFetch = `https://meetings.al-anon.org/apps/meeting-finder-test/${jsonFile}`;
+        pathFetch = `https://meetings.al-anon.org/apps/meeting-finder-test/${jsonFile}?v1=v2`;
       }
 
-      console.log('10 april, 2.45 pm')
+      console.log('10 april, 4.32 pm')
 
       setLoading(false);
       fetch(pathFetch || dataUrl)
