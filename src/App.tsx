@@ -121,9 +121,6 @@ export const App = () => {
       } else {
         pathFetch = `https://${domain}.al-anon.org/apps/${appPath}/${jsonFile}?v1=v2`;
       }
-
-      console.log('10 april, 6.11 pm');
-
       setLoading(false);
       fetch(pathFetch || dataUrl)
         .then(result => result.json())
@@ -136,6 +133,8 @@ export const App = () => {
         });
     }
   }, [translationData]);
+
+  // console.log('11 april, 1.55 pm');
 
   //get currently-checked tags
   const tags: string[] = Object.keys(state.filters)

@@ -39,6 +39,10 @@ export function Filter({
       )
     : {};
 
+  const tzObj = headerData?.timezones
+    ? Object.fromEntries(headerData.timezones.map(tz => [tz.value, tz.text]))
+    : {};
+
   return (
     <Stack spacing={{ base: 3, md: 6 }}>
       <FormControl>
@@ -138,8 +142,8 @@ export function Filter({
             value={state.timezone}
           >
             {headerData?.timezones?.map((item, index) => (
-              <option key={index} value={item?.text}>
-                {item?.value}
+              <option key={index} value={item.value}>
+                {tzObj[item.value] || item.value}
               </option>
             ))}
           </Select>
