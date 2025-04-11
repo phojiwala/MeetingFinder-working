@@ -82,7 +82,7 @@ export const App = () => {
     setState({ ...state });
   };
 
-  const isStaging = true;
+  const isStaging = false;
   const domain = isStaging ? 'meetings.staging' : 'meetings';
   const appPath = isStaging ? 'meeting-finder' : 'meeting-finder-test';
 
